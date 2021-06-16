@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View , Text, StyleSheet } from 'react-native';
 import SearchBar from '../components/SearchBar';
 import yelp from '../api/yelp';
@@ -28,6 +28,9 @@ const SearchScreen = () => {
     // This is BAD CODE! - it causes an infinite loop. since we search, change state,
     // render, and then search, change state, render...we create an infinite loop!! BAD!
     // searchApi('falaffel')
+    useEffect(() => {
+        searchApi('fallafel');
+    }, [])
 
     return (
         <View style={styles.background} >
