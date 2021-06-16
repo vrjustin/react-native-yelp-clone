@@ -8,12 +8,13 @@ const SearchScreen = () => {
     const [results, setResults] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
 
-    const searchApi = async () => {
+    const searchApi = async (searchTerm) => {
+        console.log('Hello there!');
         try {
             const response = await yelp.get('/search', {
             params: {
                 limit: 50,
-                term: term,
+                term: searchTerm,
                 location: 'farmington hills'
             } 
             });
@@ -23,12 +24,17 @@ const SearchScreen = () => {
         }
     };
 
+    // Call searchApi when component is first rendered.
+    // This is BAD CODE! - it causes an infinite loop. since we search, change state,
+    // render, and then search, change state, render...we create an infinite loop!! BAD!
+    // searchApi('falaffel')
+
     return (
         <View style={styles.background} >
             <SearchBar 
                 term={term} 
                 onTermChange={setTerm} 
-                onTermSubmitted={searchApi}
+                onTermSubmitted={() => searchApi(term)}
             />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
             <Text>We have found {results.length} results</Text>
